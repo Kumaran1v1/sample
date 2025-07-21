@@ -82,7 +82,7 @@ export default function Landing() {
               <Button
                 onClick={handleSignIn}
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-purple-600 px-8 py-4 text-lg font-semibold"
+                className="border-2 border-white text-purple-600 hover:bg-white hover:text-purple-600 px-8 py-4 text-lg font-semibold"
               >
                 Sign In
               </Button>
