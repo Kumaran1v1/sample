@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentation Creator Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-white to-pink-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-sm border-b border-purple-100 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                        <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1h-1v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7H3a1 1 0 01-1-1V5a1 1 0 011-1h4z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-900">Presentation Creator</h1>
+                        <p class="text-sm text-gray-600">Design beautiful presentations with AI</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-700">
+                        <svg class="h-3 w-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                        AI Powered
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Hero Section -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                    Create Stunning Presentations
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500"> Effortlessly</span>
+                </h2>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    Transform your ideas into beautiful presentations with our AI-powered design tools. 
+                    Choose from professional templates and customize everything to match your brand.
+                </p>
+            </div>
+
+            <!-- Main Toggle Component -->
+            <div class="max-w-2xl mx-auto mb-12">
+                <div id="presentation-toggle" class="relative">
+                    <!-- Main Toggle Button -->
+                    <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 ease-in-out cursor-pointer group border border-gray-200 card-hover">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between" onclick="toggleExpand()">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1h-1v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7H3a1 1 0 01-1-1V5a1 1 0 011-1h4z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 transition-colors duration-300">
+                                            Create Presentation
+                                        </h3>
+                                        <p class="text-sm text-gray-600 transition-colors duration-300">
+                                            Design beautiful presentations with AI assistance
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center gap-2">
+                                    <button onclick="openCreator(event)" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-1">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                        Create
+                                    </button>
+                                    
+                                    <div id="toggle-icon" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 group-hover:bg-purple-100 group-hover:text-purple-600 flex items-center justify-center transition-all duration-300">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expanded Content -->
+                            <div id="expanded-content" class="overflow-hidden transition-all duration-500 ease-in-out max-h-0 opacity-0">
+                                <div class="mt-6 space-y-4">
+                                    <!-- Features Grid -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div class="p-3 rounded-lg border bg-white/50 border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-md">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h4 class="font-medium text-purple-900 text-sm">Beautiful Templates</h4>
+                                                    <p class="text-xs text-purple-600 mt-1">Choose from professionally designed templates</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 rounded-lg border bg-white/50 border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-md">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h4 class="font-medium text-purple-900 text-sm">Smart Layouts</h4>
+                                                    <p class="text-xs text-purple-600 mt-1">Auto-adjusting layouts for perfect presentations</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 rounded-lg border bg-white/50 border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-md">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h4 class="font-medium text-purple-900 text-sm">Quick Creation</h4>
+                                                    <p class="text-xs text-purple-600 mt-1">Create stunning presentations in minutes</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="p-3 rounded-lg border bg-white/50 border-purple-200 hover:border-purple-300 transition-all duration-300 hover:shadow-md">
+                                            <div class="flex items-start gap-3">
+                                                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center flex-shrink-0">
+                                                    <svg class="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="min-w-0">
+                                                    <h4 class="font-medium text-purple-900 text-sm">Rich Content</h4>
+                                                    <p class="text-xs text-purple-600 mt-1">Add text, images, charts, and more</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="flex items-center gap-3 pt-2">
+                                        <button onclick="openCreator(event)" class="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2">
+                                            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                            </svg>
+                                            Start Creating
+                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                            </svg>
+                                        </button>
+                                        
+                                        <button onclick="toggleExpand()" class="border border-purple-200 text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-lg font-medium transition-all duration-300">
+                                            Collapse
+                                        </button>
+                                    </div>
+
+                                    <!-- Quick Stats -->
+                                    <div class="flex items-center justify-center gap-6 pt-2 border-t border-purple-200">
+                                        <div class="text-center">
+                                            <div class="text-lg font-bold text-purple-900">50+</div>
+                                            <div class="text-xs text-purple-600">Templates</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-lg font-bold text-purple-900">AI</div>
+                                            <div class="text-xs text-purple-600">Powered</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-lg font-bold text-purple-900">5min</div>
+                                            <div class="text-xs text-purple-600">Quick Setup</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating Action Hint -->
+                    <div id="floating-hint" class="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                        <svg class="h-3 w-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg card-hover">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1h-1v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7H3a1 1 0 01-1-1V5a1 1 0 011-1h4z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">50+ Templates</h3>
+                    <p class="text-gray-600 text-sm">Professional designs for every occasion</p>
+                </div>
+
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg card-hover">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">10K+ Users</h3>
+                    <p class="text-gray-600 text-sm">Trusted by professionals worldwide</p>
+                </div>
+
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg card-hover">
+                    <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1M9 10v5a2 2 0 002 2h2a2 2 0 002-2v-5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">25K+ Created</h3>
+                    <p class="text-gray-600 text-sm">Presentations made with our platform</p>
+                </div>
+
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg card-hover">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <svg class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">4.9 Rating</h3>
+                    <p class="text-gray-600 text-sm">Highly rated by our users</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isExpanded = false;
+
+        function toggleExpand() {
+            const expandedContent = document.getElementById('expanded-content');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const floatingHint = document.getElementById('floating-hint');
+            const toggleContainer = document.getElementById('presentation-toggle');
+            
+            isExpanded = !isExpanded;
+            
+            if (isExpanded) {
+                expandedContent.style.maxHeight = '400px';
+                expandedContent.style.opacity = '1';
+                toggleIcon.style.transform = 'rotate(45deg)';
+                toggleIcon.classList.add('bg-purple-100', 'text-purple-600');
+                toggleIcon.classList.remove('bg-gray-100', 'text-gray-600');
+                floatingHint.style.display = 'none';
+                toggleContainer.querySelector('.group').classList.add('bg-gradient-to-br', 'from-purple-50', 'to-pink-50', 'border-purple-200', 'scale-105');
+            } else {
+                expandedContent.style.maxHeight = '0';
+                expandedContent.style.opacity = '0';
+                toggleIcon.style.transform = 'rotate(0deg)';
+                toggleIcon.classList.remove('bg-purple-100', 'text-purple-600');
+                toggleIcon.classList.add('bg-gray-100', 'text-gray-600');
+                floatingHint.style.display = 'flex';
+                toggleContainer.querySelector('.group').classList.remove('bg-gradient-to-br', 'from-purple-50', 'to-pink-50', 'border-purple-200', 'scale-105');
+            }
+        }
+
+        function openCreator(event) {
+            event.stopPropagation();
+            // Simulate opening Canva-like editor
+            window.open('https://canva.com/design/DAGtcCPCaJk/_ZqMg4tYQnCWSvn_RMQa/edit', '_blank');
+        }
+    </script>
+</body>
+</html>

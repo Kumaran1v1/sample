@@ -1,0 +1,449 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar Styles */
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #64748b;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* Custom scrollbar for main content areas */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cbd5e1;
+  width: 8px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar but keep functionality for specific elements */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Premium scrollbar for cards and containers */
+.premium-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #a855f7 #f3f4f6;
+}
+
+.premium-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.premium-scrollbar::-webkit-scrollbar-track {
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.premium-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #a855f7, #9333ea);
+  border-radius: 6px;
+  border: 1px solid #8b5cf6;
+  transition: all 0.3s ease;
+}
+
+.premium-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #9333ea, #7c3aed);
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(168, 85, 247, 0.3);
+}
+
+.premium-scrollbar::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(to bottom, #7c3aed, #6d28d9);
+}
+
+/* Minimal scrollbar for dropdowns and small containers */
+.minimal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #ffffff;
+}
+
+.minimal-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 2px;
+  transition: background-color 0.2s ease;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Animated scrollbar */
+.animated-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #f1f5f9;
+}
+
+.animated-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.animated-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.animated-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #6366f1, #8b5cf6, #a855f7);
+  background-size: 200% 200%;
+  border-radius: 3px;
+  animation: gradient-shift 3s ease infinite;
+  transition: all 0.2s ease;
+}
+
+.animated-scrollbar::-webkit-scrollbar-thumb:hover {
+  animation-duration: 1s;
+  transform: scale(1.2);
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Responsive utilities for very small screens */
+@media (max-width: 320px) {
+  .mobile-menu-btn {
+    top: 8px !important;
+    left: 8px !important;
+    padding: 6px !important;
+  }
+
+  .sidebar-mobile {
+    width: calc(100vw - 20px) !important;
+    max-width: 280px !important;
+  }
+
+  .content-mobile {
+    padding: 8px !important;
+  }
+
+  .header-mobile {
+    padding: 8px 12px !important;
+  }
+}
+
+/* Responsive utilities for small tablets (765px area) */
+@media (min-width: 765px) and (max-width: 1023px) {
+  .sidebar-tablet {
+    width: 64px !important;
+  }
+
+  .content-tablet {
+    margin-left: 64px !important;
+  }
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 480px) {
+  .responsive-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+
+/* Text scaling for very small screens */
+@media (max-width: 375px) {
+  .responsive-text-sm {
+    font-size: 0.75rem !important;
+  }
+
+  .responsive-text-base {
+    font-size: 0.875rem !important;
+  }
+
+  .responsive-text-lg {
+    font-size: 1rem !important;
+  }
+
+  .responsive-text-xl {
+    font-size: 1.125rem !important;
+  }
+}
+
+/* iPad Pro specific optimizations */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  .ipad-pro-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .ipad-pro-template-card {
+    padding: 1.25rem !important;
+  }
+
+  .ipad-pro-template-preview {
+    min-height: 180px !important;
+  }
+}
+
+/* Large iPad Pro (12.9") optimizations */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+  .ipad-pro-large-grid {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Mobile Single Column Centered Layout */
+@media (max-width: 640px) {
+  /* Mobile - Single column centered cards */
+  .mobile-single-column {
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    gap: 1rem !important;
+    padding: 0 1rem !important;
+  }
+
+  .mobile-template-card {
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+  }
+
+  .mobile-card-content {
+    padding: 1rem !important;
+  }
+
+  .mobile-template-preview {
+    aspect-ratio: 16/9 !important;
+    min-height: 180px !important;
+  }
+
+  .mobile-template-title {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Small mobile - Slightly smaller cards */
+  .mobile-template-card {
+    max-width: 280px !important;
+  }
+
+  .mobile-template-preview {
+    min-height: 160px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  /* Very small mobile - Compact cards */
+  .mobile-template-card {
+    max-width: 260px !important;
+  }
+
+  .mobile-template-preview {
+    min-height: 140px !important;
+  }
+
+  .mobile-card-content {
+    padding: 0.75rem !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  /* Large mobile/Small tablet - Three columns */
+  .responsive-grid-lg {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.25rem !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* iPad/Tablet - Four columns with optimal spacing */
+  .responsive-grid-tablet {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+
+  .responsive-card-tablet {
+    padding: 1.25rem !important;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1366px) {
+  /* iPad Pro/Small desktop - Five columns */
+  .responsive-grid-desktop {
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+}
+
+@media (min-width: 1367px) {
+  /* Large desktop - Six columns */
+  .responsive-grid-large {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 2rem !important;
+  }
+}
+
+/* Responsive text scaling without overflow hidden */
+.responsive-text {
+  font-size: clamp(0.75rem, 2vw, 1.125rem);
+  line-height: 1.4;
+}
+
+.responsive-title {
+  font-size: clamp(1rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+
+/* Responsive button sizing */
+.responsive-button {
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(0.75rem, 2vw, 1rem);
+}
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(263, 70%, 50%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(217, 91%, 60%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(263, 70%, 50%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(263, 70%, 50%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(217, 91%, 60%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(263, 70%, 50%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
