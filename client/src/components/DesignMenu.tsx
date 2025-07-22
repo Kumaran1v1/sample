@@ -89,7 +89,7 @@ export default function DesignMenu({
 
       <div>
         <h3 className="font-medium text-gray-900 mb-3">Templates</h3>
-        <div className="grid grid-cols-2 gap-2 max-h-96">
+        <div className="grid grid-cols-2 gap-2">
           {designTemplates.map((template) => (
             <div
               key={template.id}

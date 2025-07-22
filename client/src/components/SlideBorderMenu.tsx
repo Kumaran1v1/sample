@@ -145,7 +145,7 @@ export default function SlideBorderMenu({
     <div className="space-y-4">
       <div>
         <h3 className="font-medium text-gray-900 mb-3">Slide Border Styles</h3>
-        <div className="space-y-2 max-h-64 overflow-y-auto">
+        <div className="space-y-2 max-h-64 overflow-y-auto custom-scrollbar">
           {borderStyles.map((border, index) => (
             <Button
               key={index}
