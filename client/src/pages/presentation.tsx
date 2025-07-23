@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import SlideTemplatesMenu from "@/components/SlideTemplatesMenu";
 
-import { Search, Plus, ChevronRight, Star, Heart } from "lucide-react";
+import {
+  Search,
+  Plus,
+  ChevronRight,
+  Star,
+  Heart,
+  Layout
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Featured presentation templates
@@ -77,7 +86,8 @@ const featuredTemplates = [
 
 // Filter categories
 const filterCategories = [
-  { name: "All", active: true },
+  { name: "Slide Templates", active: true },
+  { name: "All", active: false },
   { name: "Business", active: false },
   { name: "Education", active: false },
   { name: "Marketing", active: false },
@@ -87,11 +97,40 @@ const filterCategories = [
 
 export default function Presentation() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("Slide Templates");
+  const [, setLocation] = useLocation();
+
+  // Check for template parameter in URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const templateId = urlParams.get('template');
+
+    if (templateId) {
+      // Redirect to presentation editor with template
+      window.open(`/presentation-editor?template=${templateId}`, '_blank');
+      // Clear the template parameter from URL
+      window.history.replaceState({}, '', '/presentation');
+    }
+  }, []);
 
   const handleCreateNew = () => {
     // Open presentation editor in new tab
     window.open('/presentation-editor', '_blank');
+  };
+
+  const handleCreateWithTemplate = (templateId: string) => {
+    // Navigate to presentation editor with template
+    window.open(`/presentation-editor?template=${templateId}`, '_blank');
+  };
+
+  const handleApplyTemplate = (templateId: string) => {
+    // For presentation page, we'll create a new presentation with template
+    handleCreateWithTemplate(templateId);
+  };
+
+  const handleAddSlide = (templateId: string) => {
+    // For presentation page, we'll create a new presentation with template
+    handleCreateWithTemplate(templateId);
   };
 
   const handleTemplateClick = (templateId: number) => {
@@ -161,12 +200,25 @@ export default function Presentation() {
                 </div>
               </div>
 
-              {/* Featured Templates Section */}
-              <div className="mb-8 sm:mb-12">
-                <div className="flex items-center justify-between mb-4 sm:mb-6">
-                  <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900">Featured Templates</h2>
-                  <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-400" />
+              {/* Slide Templates Section */}
+              {activeCategory === "Slide Templates" && (
+                <div className="mb-8 sm:mb-12">
+                  <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
+                    <SlideTemplatesMenu
+                      onApplyTemplate={handleApplyTemplate}
+                      onAddSlide={handleAddSlide}
+                    />
+                  </div>
                 </div>
+              )}
+
+              {/* Featured Templates Section */}
+              {activeCategory !== "Slide Templates" && (
+                <div className="mb-8 sm:mb-12">
+                  <div className="flex items-center justify-between mb-4 sm:mb-6">
+                    <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900">Featured Templates</h2>
+                    <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-gray-400" />
+                  </div>
 
                 {/* Responsive Templates Grid - Mobile Single Column Centered */}
                 <div className="grid gap-3 sm:gap-4 md:gap-6
@@ -218,15 +270,17 @@ export default function Presentation() {
                   ))}
                 </div>
               </div>
+              )}
 
               {/* Recently Used Section */}
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-gray-900">Recently Used</h2>
-                  <ChevronRight className="h-6 w-6 text-gray-400" />
-                </div>
-                
-                {/* Empty State */}
+              {activeCategory !== "Slide Templates" && (
+                <div className="mb-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900">Recently Used</h2>
+                    <ChevronRight className="h-6 w-6 text-gray-400" />
+                  </div>
+
+                  {/* Empty State */}
                 <div className="bg-white rounded-xl p-8 border border-gray-200 text-center">
                   <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <ChevronRight className="h-6 w-6 text-gray-400" />
@@ -241,7 +295,8 @@ export default function Presentation() {
                     Create New
                   </Button>
                 </div>
-              </div>
+                </div>
+              )}
             </div>
           </main>
         </div>

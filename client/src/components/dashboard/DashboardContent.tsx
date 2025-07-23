@@ -27,6 +27,7 @@ const designCategories = [
     color: "from-blue-500 to-purple-600",
     description: "Create stunning presentations"
   },
+
   {
     id: "resume",
     name: "Resume",

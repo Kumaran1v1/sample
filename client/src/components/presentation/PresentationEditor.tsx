@@ -24,6 +24,7 @@ import {
   Palette,
   Upload,
   Settings,
+  Layout,
   Share,
   Download,
   Play,
@@ -42,18 +43,22 @@ import {
   MoreHorizontal
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import HomeMenuTemplates from "@/components/HomeMenuTemplates";
+import SlideTemplatesMenu from "@/components/SlideTemplatesMenu";
 
 interface PresentationEditorProps {
   presentationTitle?: string;
 }
 
 export function PresentationEditor({ presentationTitle = "Untitled Presentation" }: PresentationEditorProps) {
-  const [activeTab, setActiveTab] = useState<'design' | 'elements' | 'text' | 'brand' | 'uploads' | 'tools'>('design');
+  const [activeTab, setActiveTab] = useState<'home' | 'templates' | 'design' | 'elements' | 'text' | 'brand' | 'uploads' | 'tools'>('home');
   const [currentSlide, setCurrentSlide] = useState(1);
   const [totalSlides] = useState(12);
   const [zoomLevel, setZoomLevel] = useState(30);
 
   const sidebarTabs = [
+    { id: 'home', icon: Home, label: 'Home', color: 'text-blue-600' },
+    { id: 'templates', icon: Layout, label: 'Templates', color: 'text-pink-600' },
     { id: 'design', icon: Grid3X3, label: 'Design', color: 'text-blue-600' },
     { id: 'elements', icon: Square, label: 'Elements', color: 'text-green-600' },
     { id: 'text', icon: Type, label: 'Text', color: 'text-purple-600' },
@@ -165,7 +170,7 @@ export function PresentationEditor({ presentationTitle = "Untitled Presentation"
                     <Home className="h-5 w-5" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="right">Home</TooltipContent>
+                {/* <TooltipContent side="right">Home</TooltipContent> */}
               </Tooltip>
 
               {sidebarTabs.map((tab) => (
@@ -190,6 +195,36 @@ export function PresentationEditor({ presentationTitle = "Untitled Presentation"
 
             {/* Tab Content */}
             <div className="flex-1 p-4">
+              {activeTab === 'home' && (
+                <div className="h-full">
+                  <HomeMenuTemplates
+                    onApplyTemplate={(templateId) => {
+                      console.log('Apply template:', templateId);
+                      // Add template application logic here
+                    }}
+                    onAddSlide={(templateId) => {
+                      console.log('Add slide with template:', templateId);
+                      // Add slide creation logic here
+                    }}
+                  />
+                </div>
+              )}
+
+              {activeTab === 'templates' && (
+                <div className="h-full">
+                  <SlideTemplatesMenu
+                    onApplyTemplate={(templateId) => {
+                      console.log('Apply template:', templateId);
+                      // Add template application logic here
+                    }}
+                    onAddSlide={(templateId) => {
+                      console.log('Add slide with template:', templateId);
+                      // Add slide creation logic here
+                    }}
+                  />
+                </div>
+              )}
+
               {activeTab === 'design' && (
                 <div className="space-y-4">
                   <div>

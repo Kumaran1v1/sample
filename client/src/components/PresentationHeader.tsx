@@ -32,13 +32,15 @@ import {
   Eye,
   MessageSquare,
   Undo2,
-  Redo2
+  Redo2,
+  Home
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Presentation } from "@/components/presentation/types";
 
 interface PresentationHeaderProps {
-  presentation: any;
-  setPresentation: React.Dispatch<React.SetStateAction<any>>;
+  presentation: Presentation;
+  setPresentation: React.Dispatch<React.SetStateAction<Presentation>>;
   savePresentation: () => void;
   exportPresentation: (format: "pdf" | "pptx" | "png") => Promise<void>;
   sharePresentation: (shareType: "link" | "email" | "embed") => Promise<void>;
@@ -61,6 +63,7 @@ interface PresentationHeaderProps {
   redo: () => void;
   canUndo: boolean;
   canRedo: boolean;
+  setActiveTab: (tab: 'home' | 'templates' | 'design' | 'elements' | 'text' | 'borders' | 'brand' | 'uploads' | 'tools') => void;
 }
 
 export default function PresentationHeader({
@@ -87,7 +90,8 @@ export default function PresentationHeader({
   undo,
   redo,
   canUndo,
-  canRedo
+  canRedo,
+  setActiveTab
 }: PresentationHeaderProps) {
   return (
     <header className="bg-white border-b border-gray-200 px-4 py-2 flex items-center justify-between flex-shrink-0 z-10">
@@ -99,6 +103,25 @@ export default function PresentationHeader({
           </div>
           <span className="font-bold text-xl text-cyan-500">DS</span>
         </div>
+
+        {/* Home Button */}
+        {setActiveTab && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveTab('home')}
+                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+              >
+                <Home className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            {/* <TooltipContent>
+              <p>Home - Slide Templates</p>
+            </TooltipContent> */}
+          </Tooltip>
+        )}
 
         {/* Navigation */}
         <nav className="flex items-center gap-1">

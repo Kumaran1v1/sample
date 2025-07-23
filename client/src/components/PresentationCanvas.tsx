@@ -215,6 +215,7 @@ export default function PresentationCanvas({
       >
         <CardContent
           ref={canvasRef}
+          data-canvas="true"
           className={cn(
             "p-0 h-full rounded-lg relative overflow-hidden cursor-pointer",
             presentation.slides[currentSlide - 1]?.background || "bg-white"
@@ -263,10 +264,10 @@ export default function PresentationCanvas({
                 lineHeight: element.style.lineHeight,
                 letterSpacing: element.style.letterSpacing,
                 color: element.style.color,
-                backgroundColor: element.style.backgroundColor,
-                background: element.style.background,
-                borderRadius: element.style.borderRadius,
-                border: element.style.border,
+                backgroundColor: element.type !== 'shape' ? element.style.backgroundColor : 'transparent',
+                background: element.type !== 'shape' ? element.style.background : undefined,
+                borderRadius: element.type !== 'shape' ? element.style.borderRadius : undefined,
+                border: element.type !== 'shape' ? element.style.border : 'none',
                 padding: element.style.padding,
                 filter: element.style.filter,
                 animation: element.style.animation,
@@ -310,13 +311,560 @@ export default function PresentationCanvas({
               )}
 
               {element.type === 'shape' && (
-                <div
-                  className="w-full h-full"
-                  style={{
-                    backgroundColor: element.style.backgroundColor || 'transparent',
-                    borderRadius: element.style.borderRadius || '0px'
-                  }}
-                />
+                <div className="w-full h-full relative">
+
+                  {/* Rectangle */}
+                  {element.content === 'rectangle' && (
+                    <div
+                      className="w-full h-full"
+                      style={{
+                        backgroundColor: element.style.backgroundColor || 'transparent',
+                        borderRadius: element.style.borderRadius || '0px',
+                        border: element.style.border || '2px solid #000000',
+                        borderColor: element.style.borderColor || '#000000'
+                      }}
+                    />
+                  )}
+
+                  {/* Circle */}
+                  {element.content === 'circle' && (
+                    <div
+                      className="w-full h-full rounded-full"
+                      style={{
+                        backgroundColor: element.style.backgroundColor || 'transparent',
+                        border: element.style.border || '2px solid #000000',
+                        borderColor: element.style.borderColor || '#000000'
+                      }}
+                    />
+                  )}
+
+                  {/* Triangle */}
+                  {element.content === 'triangle' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L85 80 L15 80 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Arrow Right */}
+                  {(element.content === 'arrow' || element.content === 'arrow right') && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M10 50 L70 50 L60 35 L85 50 L60 65 L70 50"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Arrow Left */}
+                  {element.content === 'arrow left' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M90 50 L30 50 L40 35 L15 50 L40 65 L30 50"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Arrow Up */}
+                  {element.content === 'arrow up' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 90 L50 30 L35 40 L50 15 L65 40 L50 30"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Arrow Down */}
+                  {element.content === 'arrow down' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L50 70 L35 60 L50 85 L65 60 L50 70"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Double Arrow */}
+                  {element.content === 'double arrow' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M10 50 L25 35 L25 45 L75 45 L75 35 L90 50 L75 65 L75 55 L25 55 L25 65 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Block Arrow */}
+                  {element.content === 'block arrow' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M10 35 L60 35 L60 25 L85 50 L60 75 L60 65 L10 65 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Star */}
+                  {element.content === 'star' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L60 35 L85 35 L67 52 L75 77 L50 65 L25 77 L33 52 L15 35 L40 35 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Diamond */}
+                  {element.content === 'diamond' && (
+                    <div className="w-full h-full relative">
+                      <div
+                        className="absolute"
+                        style={{
+                          width: `${element.width * 0.7}px`,
+                          height: `${element.height * 0.7}px`,
+                          left: '50%',
+                          top: '50%',
+                          transform: 'translate(-50%, -50%) rotate(45deg)',
+                          backgroundColor: element.style.backgroundColor || 'transparent',
+                          border: element.style.border || '2px solid #000000',
+                          borderColor: element.style.borderColor || '#000000',
+                          borderRadius: element.style.borderRadius || '0px'
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Hexagon */}
+                  {element.content === 'hexagon' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M25 25 L75 25 L90 50 L75 75 L25 75 L10 50 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Heart */}
+                  {element.content === 'heart' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 85 C50 85 20 60 20 40 C20 25 30 15 45 20 C50 22 50 22 55 20 C70 15 80 25 80 40 C80 60 50 85 50 85 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Octagon */}
+                  {element.content === 'octagon' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M30 10 L70 10 L90 30 L90 70 L70 90 L30 90 L10 70 L10 30 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Pentagon */}
+                  {element.content === 'pentagon' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L85 35 L70 80 L30 80 L15 35 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Heptagon */}
+                  {element.content === 'heptagon' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L75 25 L85 50 L75 75 L50 90 L25 75 L15 50 L25 25 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Nonagon */}
+                  {element.content === 'nonagon' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L70 15 L85 30 L90 50 L85 70 L70 85 L50 90 L30 85 L15 70 L10 50 L15 30 L30 15 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Decagon */}
+                  {element.content === 'decagon' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L65 12 L78 20 L88 32 L92 47 L92 53 L88 68 L78 80 L65 88 L50 90 L35 88 L22 80 L12 68 L8 53 L8 47 L12 32 L22 20 L35 12 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Parallelogram */}
+                  {element.content === 'parallelogram' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M20 25 L80 25 L90 75 L30 75 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Trapezoid */}
+                  {element.content === 'trapezoid' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M30 25 L70 25 L85 75 L15 75 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Rhombus */}
+                  {element.content === 'rhombus' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L85 50 L50 90 L15 50 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Kite */}
+                  {element.content === 'kite' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L75 40 L50 55 L25 40 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                        <path
+                          d="M50 55 L65 90 L50 80 L35 90 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Process (Flowchart) */}
+                  {element.content === 'process' && (
+                    <div className="w-full h-full relative">
+                      <div
+                        className="w-full h-full"
+                        style={{
+                          backgroundColor: element.style.backgroundColor || 'transparent',
+                          border: element.style.border || '2px solid #000000',
+                          borderColor: element.style.borderColor || '#000000',
+                          borderRadius: '8px'
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Decision (Flowchart) */}
+                  {element.content === 'decision' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M50 10 L90 50 L50 90 L10 50 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Start/End (Flowchart) */}
+                  {(element.content === 'start/end' || element.content === 'start' || element.content === 'end') && (
+                    <div className="w-full h-full relative">
+                      <div
+                        className="w-full h-full"
+                        style={{
+                          backgroundColor: element.style.backgroundColor || 'transparent',
+                          border: element.style.border || '2px solid #000000',
+                          borderColor: element.style.borderColor || '#000000',
+                          borderRadius: '50px'
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Document (Flowchart) */}
+                  {element.content === 'document' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <path
+                          d="M10 10 L90 10 L90 75 C90 80 85 85 80 85 L70 85 C65 80 55 80 50 85 C45 80 35 80 30 85 L20 85 C15 85 10 80 10 75 Z"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Database (Flowchart) */}
+                  {element.content === 'database' && (
+                    <div className="w-full h-full relative">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 100 100"
+                        className="absolute inset-0"
+                      >
+                        <ellipse
+                          cx="50"
+                          cy="20"
+                          rx="40"
+                          ry="10"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                        <path
+                          d="M10 20 L10 70 C10 75 25 80 50 80 C75 80 90 75 90 70 L90 20"
+                          fill={element.style.backgroundColor || 'transparent'}
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                        <ellipse
+                          cx="50"
+                          cy="50"
+                          rx="40"
+                          ry="10"
+                          fill="none"
+                          stroke={element.style.borderColor || '#000000'}
+                          strokeWidth="2"
+                        />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Connector (Flowchart) */}
+                  {element.content === 'connector' && (
+                    <div className="w-full h-full relative">
+                      <div
+                        className="w-full h-full rounded-full"
+                        style={{
+                          backgroundColor: element.style.backgroundColor || 'transparent',
+                          border: element.style.border || '2px solid #000000',
+                          borderColor: element.style.borderColor || '#000000'
+                        }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Default fallback for any unrecognized shape */}
+                  {!['rectangle', 'circle', 'triangle', 'arrow', 'arrow right', 'arrow left', 'arrow up', 'arrow down', 'double arrow', 'block arrow', 'star', 'diamond', 'hexagon', 'heart', 'octagon', 'pentagon', 'heptagon', 'nonagon', 'decagon', 'parallelogram', 'trapezoid', 'rhombus', 'kite', 'process', 'decision', 'start/end', 'start', 'end', 'document', 'database', 'connector'].includes(element.content) && (
+                    <div
+                        className="w-full h-full"
+                        style={{
+                          backgroundColor: element.style.backgroundColor || 'transparent',
+                          border: element.style.border || '2px solid #000000',
+                          borderColor: element.style.borderColor || '#000000',
+                          borderRadius: element.style.borderRadius || '0px'
+                        }}
+                    />
+                  )}
+                </div>
               )}
 
               {element.type === 'image' && (

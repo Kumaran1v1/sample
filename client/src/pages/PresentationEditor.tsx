@@ -1,95 +1,18 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-
-import { Slider } from "@/components/ui/slider";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import {
-  Tooltip,
-  TooltipContent,
   TooltipProvider,
-  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Home,
-  FileText,
-  Image,
   Type,
   Palette,
   Upload,
   Settings,
-  Share,
-  Download,
-  Play,
-  Plus,
-  ChevronDown,
-  Search,
   Grid3X3,
-  Square,
-  Circle,
-  Triangle,
-  Star,
-  Heart,
-  Zap,
-  Clock,
-  Users,
-  MoreHorizontal,
-  Crown,
-  Sparkles,
-  Save,
-  FolderOpen,
-  Copy,
-  Trash2,
-  ZoomIn,
-  ZoomOut,
-  RotateCcw,
-  RotateCw,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Bold,
-  Italic,
-  Underline,
-  Minus,
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-  MessageSquare,
-  Edit3,
-
-  Minimize,
-  Volume2,
-  VolumeX,
   Shapes,
-  Hexagon
+  Hexagon,
+  Layout,
+  Home
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import DesignMenu from "@/components/DesignMenu";
-import ElementsMenu from "@/components/ElementsMenu";
-import TextMenu from "@/components/TextMenu";
-import SlideBorderMenu from "@/components/SlideBorderMenu";
-import BorderMenu from "@/components/BorderMenu";
-import BrandMenu from "@/components/BrandMenu";
-import UploadsMenu from "@/components/UploadsMenu";
-import ToolsMenu from "@/components/ToolsMenu";
 import PresentationHeader from "@/components/PresentationHeader";
 import PresentationFooter from "@/components/PresentationFooter";
 import SlideNavigator from "@/components/SlideNavigator";
@@ -97,6 +20,7 @@ import SidebarTabs from "@/components/SidebarTabs";
 import PresentationCanvas from "@/components/PresentationCanvas";
 import SettingsDialog from "@/components/SettingsDialog";
 import KeyboardShortcuts from "@/components/KeyboardShortcuts";
+import SlideTemplatesMenu from "@/components/SlideTemplatesMenu";
 import { presentationService, ExportOptions, ShareOptions } from "@/services/PresentationService";
 import { PresentationExporter, PresentationSharer, AutoSaver, ExportProgress } from "@/utils/exportUtils";
 
@@ -162,9 +86,223 @@ interface Presentation {
   updatedAt: Date;
 }
 
+// Slide Template Types
+interface SlideTemplate {
+  id: string;
+  name: string;
+  description: string;
+  thumbnail: string;
+  elements: Omit<SlideElement, 'id'>[];
+}
+
+// Predefined Slide Templates
+const slideTemplates: SlideTemplate[] = [
+  {
+    id: 'blank',
+    name: 'Blank',
+    description: 'Empty slide',
+    thumbnail: '⬜',
+    elements: []
+  },
+  {
+    id: 'title',
+    name: 'Title Slide',
+    description: 'Title and subtitle',
+    thumbnail: '📄',
+    elements: [
+      {
+        type: 'text',
+        content: 'Presentation Title',
+        x: 100,
+        y: 200,
+        width: 600,
+        height: 80,
+        style: {
+          fontSize: 48,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          color: '#000000'
+        }
+      },
+      {
+        type: 'text',
+        content: 'Subtitle or description',
+        x: 100,
+        y: 300,
+        width: 600,
+        height: 40,
+        style: {
+          fontSize: 24,
+          textAlign: 'center',
+          color: '#666666'
+        }
+      }
+    ]
+  },
+  {
+    id: 'title-content',
+    name: 'Title & Content',
+    description: 'Title with content area',
+    thumbnail: '📝',
+    elements: [
+      {
+        type: 'text',
+        content: 'Slide Title',
+        x: 50,
+        y: 50,
+        width: 700,
+        height: 60,
+        style: {
+          fontSize: 36,
+          fontWeight: 'bold',
+          color: '#000000'
+        }
+      },
+      {
+        type: 'text',
+        content: 'Add your content here...',
+        x: 50,
+        y: 130,
+        width: 700,
+        height: 300,
+        style: {
+          fontSize: 18,
+          color: '#333333'
+        }
+      }
+    ]
+  },
+  {
+    id: 'two-column',
+    name: 'Two Column',
+    description: 'Title with two columns',
+    thumbnail: '📊',
+    elements: [
+      {
+        type: 'text',
+        content: 'Slide Title',
+        x: 50,
+        y: 50,
+        width: 700,
+        height: 60,
+        style: {
+          fontSize: 36,
+          fontWeight: 'bold',
+          color: '#000000'
+        }
+      },
+      {
+        type: 'text',
+        content: 'Left Column Content',
+        x: 50,
+        y: 130,
+        width: 325,
+        height: 300,
+        style: {
+          fontSize: 18,
+          color: '#333333'
+        }
+      },
+      {
+        type: 'text',
+        content: 'Right Column Content',
+        x: 425,
+        y: 130,
+        width: 325,
+        height: 300,
+        style: {
+          fontSize: 18,
+          color: '#333333'
+        }
+      }
+    ]
+  },
+  {
+    id: 'title-footer',
+    name: 'Title & Footer',
+    description: 'Title with footer',
+    thumbnail: '📋',
+    elements: [
+      {
+        type: 'text',
+        content: 'Slide Title',
+        x: 50,
+        y: 50,
+        width: 700,
+        height: 60,
+        style: {
+          fontSize: 36,
+          fontWeight: 'bold',
+          color: '#000000'
+        }
+      },
+      {
+        type: 'text',
+        content: 'Main content area',
+        x: 50,
+        y: 130,
+        width: 700,
+        height: 250,
+        style: {
+          fontSize: 18,
+          color: '#333333'
+        }
+      },
+      {
+        type: 'text',
+        content: 'Footer information',
+        x: 50,
+        y: 400,
+        width: 700,
+        height: 30,
+        style: {
+          fontSize: 14,
+          color: '#666666',
+          textAlign: 'center'
+        }
+      }
+    ]
+  },
+  {
+    id: 'section-header',
+    name: 'Section Header',
+    description: 'Large section title',
+    thumbnail: '🏷️',
+    elements: [
+      {
+        type: 'text',
+        content: 'Section Title',
+        x: 100,
+        y: 180,
+        width: 600,
+        height: 100,
+        style: {
+          fontSize: 54,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          color: '#000000'
+        }
+      },
+      {
+        type: 'text',
+        content: 'Section description or number',
+        x: 100,
+        y: 300,
+        width: 600,
+        height: 40,
+        style: {
+          fontSize: 20,
+          textAlign: 'center',
+          color: '#666666'
+        }
+      }
+    ]
+  }
+];
+
 export default function PresentationEditor() {
   // Core state
-  const [activeTab, setActiveTab] = useState<'design' | 'elements' | 'text' | 'borders' | 'brand' | 'uploads' | 'tools'>('design');
+  const [activeTab, setActiveTab] = useState<'home' | 'templates' | 'design' | 'elements' | 'text' | 'borders' | 'brand' | 'uploads' | 'tools'>('home');
   const [currentSlide, setCurrentSlide] = useState(1);
   const [totalSlides, setTotalSlides] = useState(1);
   const [zoomLevel, setZoomLevel] = useState(100);
@@ -217,8 +355,7 @@ export default function PresentationEditor() {
     theme: 'auto' as 'light' | 'dark' | 'auto'
   });
 
-  // Canvas refs
-  const canvasRef = useRef<HTMLDivElement>(null);
+  // File input ref
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Core Functions
@@ -404,6 +541,7 @@ export default function PresentationEditor() {
   }, [currentSlide]);
 
   const addShapeElement = useCallback((shapeType: string) => {
+
     const newElement: SlideElement = {
       id: Date.now().toString(),
       type: 'shape',
@@ -413,13 +551,14 @@ export default function PresentationEditor() {
       width: 100,
       height: 100,
       style: {
-        backgroundColor: 'transparent', // No default background color
+        backgroundColor: 'transparent', // Transparent background by default
         borderRadius: shapeType === 'circle' ? 50 : 0,
-        border: '2px solid #000000', // Default black border for visibility
+        border: '2px solid #000000', // Black border by default
         borderColor: '#000000',
         transform: 'rotate(0deg)' // Default rotation
       }
     };
+
 
     setPresentation(prev => {
       const slideIndex = currentSlide - 1;
@@ -629,6 +768,79 @@ export default function PresentationEditor() {
     }));
   }, [currentSlide]);
 
+  // Apply slide layout template
+  const applySlideTemplate = useCallback((templateId: string, slideIndex?: number) => {
+    const template = slideTemplates.find(t => t.id === templateId);
+    if (!template) return;
+
+    const targetSlideIndex = slideIndex !== undefined ? slideIndex : currentSlide - 1;
+
+    setPresentation(prev => {
+      const newSlides = [...prev.slides];
+      const elementsWithIds = template.elements.map(element => ({
+        ...element,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
+      }));
+
+      // Save current slide state to history before applying template
+      const currentSlideData = newSlides[targetSlideIndex];
+      saveSlideToHistory(targetSlideIndex, currentSlideData);
+
+      newSlides[targetSlideIndex] = {
+        ...newSlides[targetSlideIndex],
+        elements: elementsWithIds
+      };
+
+      return {
+        ...prev,
+        slides: newSlides
+      };
+    });
+  }, [currentSlide, saveSlideToHistory]);
+
+  // Add new slide with template
+  const addSlide = useCallback((templateId: string = 'blank') => {
+    const template = slideTemplates.find(t => t.id === templateId);
+
+    setPresentation(prev => {
+      const elementsWithIds = template ? template.elements.map(element => ({
+        ...element,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
+      })) : [];
+
+      const newSlide: Slide = {
+        id: Date.now().toString(),
+        elements: elementsWithIds,
+        background: '#ffffff',
+        notes: ''
+      };
+
+      const newSlides = [...prev.slides];
+      newSlides.splice(currentSlide, 0, newSlide);
+
+      return {
+        ...prev,
+        slides: newSlides
+      };
+    });
+
+    setTotalSlides(prev => prev + 1);
+    setCurrentSlide(prev => prev + 1);
+  }, [currentSlide]);
+
+  // Handle template parameter from URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const templateId = urlParams.get('template');
+
+    if (templateId && templateId !== 'blank') {
+      // Apply the template to the first slide
+      applySlideTemplate(templateId, 0);
+      // Clear the template parameter from URL
+      window.history.replaceState({}, '', '/presentation-editor');
+    }
+  }, [applySlideTemplate]);
+
   // Drag and drop functionality
   const handleMouseDown = useCallback((e: React.MouseEvent, elementId: string) => {
     e.stopPropagation();
@@ -636,22 +848,35 @@ export default function PresentationEditor() {
     setSelectedElement(elementId);
     setIsDragging(true);
 
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (rect) {
+    // Find the canvas element by traversing up the DOM
+    let canvasElement = e.currentTarget as HTMLElement;
+    while (canvasElement && !canvasElement.classList.contains('relative')) {
+      canvasElement = canvasElement.parentElement as HTMLElement;
+    }
+
+    if (canvasElement) {
+      const rect = canvasElement.getBoundingClientRect();
       const startPos = {
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
       };
       setDragStart(startPos);
+
     }
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging || !selectedElement || !canvasRef.current) {
+    if (!isDragging || !selectedElement) {
       return;
     }
 
-    const rect = canvasRef.current.getBoundingClientRect();
+    // Find the canvas element
+    const canvasElement = document.querySelector('[data-canvas="true"]') as HTMLElement;
+    if (!canvasElement) {
+      return;
+    }
+
+    const rect = canvasElement.getBoundingClientRect();
     const currentX = e.clientX - rect.left;
     const currentY = e.clientY - rect.top;
 
@@ -668,6 +893,7 @@ export default function PresentationEditor() {
 
       const newX = Math.max(0, Math.min(canvasWidth - currentElement.width, currentElement.x + deltaX));
       const newY = Math.max(0, Math.min(canvasHeight - currentElement.height, currentElement.y + deltaY));
+
 
       updateElement(selectedElement, { x: newX, y: newY });
 
@@ -688,8 +914,9 @@ export default function PresentationEditor() {
     setIsResizing(true);
     setResizeHandle(handle);
 
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (rect) {
+    const canvasElement = document.querySelector('[data-canvas="true"]') as HTMLElement;
+    if (canvasElement) {
+      const rect = canvasElement.getBoundingClientRect();
       setDragStart({
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
@@ -698,9 +925,12 @@ export default function PresentationEditor() {
   }, []);
 
   const handleResize = useCallback((e: React.MouseEvent) => {
-    if (!isResizing || !selectedElement || !resizeHandle || !canvasRef.current) return;
+    if (!isResizing || !selectedElement || !resizeHandle) return;
 
-    const rect = canvasRef.current.getBoundingClientRect();
+    const canvasElement = document.querySelector('[data-canvas="true"]') as HTMLElement;
+    if (!canvasElement) return;
+
+    const rect = canvasElement.getBoundingClientRect();
     const currentX = e.clientX - rect.left;
     const currentY = e.clientY - rect.top;
 
@@ -754,8 +984,9 @@ export default function PresentationEditor() {
     e.stopPropagation();
     setIsRotating(true);
 
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (rect) {
+    const canvasElement = document.querySelector('[data-canvas="true"]') as HTMLElement;
+    if (canvasElement) {
+      const rect = canvasElement.getBoundingClientRect();
       setDragStart({
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
@@ -764,9 +995,12 @@ export default function PresentationEditor() {
   }, []);
 
   const handleRotation = useCallback((e: React.MouseEvent) => {
-    if (!isRotating || !selectedElement || !canvasRef.current) return;
+    if (!isRotating || !selectedElement) return;
 
-    const rect = canvasRef.current.getBoundingClientRect();
+    const canvasElement = document.querySelector('[data-canvas="true"]') as HTMLElement;
+    if (!canvasElement) return;
+
+    const rect = canvasElement.getBoundingClientRect();
     const currentElement = presentation.slides[currentSlide - 1]?.elements
       .find(el => el.id === selectedElement);
 
@@ -949,8 +1183,8 @@ export default function PresentationEditor() {
   useEffect(() => {
     const handleGlobalMouseMove = (event: MouseEvent) => {
       if (isDragging || isResizing || isRotating) {
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (rect) {
+        const canvasElement = document.querySelector('[data-canvas="true"]') as HTMLElement;
+        if (canvasElement) {
           const mouseEvent = {
             clientX: event.clientX,
             clientY: event.clientY,
@@ -1007,6 +1241,8 @@ export default function PresentationEditor() {
   }, [undo, redo]);
 
   const sidebarTabs = [
+    { id: 'home', icon: Home, label: 'Home', color: 'text-blue-600' },
+    { id: 'templates', icon: Layout, label: 'Templates', color: 'text-pink-600' },
     { id: 'design', icon: Grid3X3, label: 'Design', color: 'text-blue-600' },
     { id: 'elements', icon: Shapes, label: 'Elements', color: 'text-green-600' },
     { id: 'text', icon: Type, label: 'Text', color: 'text-purple-600' },
@@ -1178,8 +1414,9 @@ export default function PresentationEditor() {
           redo={redo}
           canUndo={canUndo}
           canRedo={canRedo}
+          setActiveTab={setActiveTab}
         />
-
+  
         <div className="flex-1 flex overflow-hidden">
           <SidebarTabs
             activeTab={activeTab}
@@ -1195,6 +1432,8 @@ export default function PresentationEditor() {
             addShapeElement={addShapeElement}
             addEmojiElement={addEmojiElement}
             applyTemplate={applyTemplate}
+            applySlideTemplate={applySlideTemplate}
+            addSlide={addSlide}
             zoomLevel={zoomLevel}
             zoomIn={zoomIn}
             zoomOut={zoomOut}

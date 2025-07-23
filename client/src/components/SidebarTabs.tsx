@@ -23,11 +23,13 @@ import BorderMenu from "@/components/BorderMenu";
 import BrandMenu from "@/components/BrandMenu";
 import UploadsMenu from "@/components/UploadsMenu";
 import ToolsMenu from "@/components/ToolsMenu";
+import SlideTemplatesMenu from "@/components/SlideTemplatesMenu";
+import HomeMenuTemplates from "@/components/HomeMenuTemplates";
 import { SlideElement, Presentation } from "@/components/presentation/types";
 
 interface SidebarTabsProps {
-  activeTab: 'design' | 'elements' | 'text' | 'borders' | 'brand' | 'uploads' | 'tools';
-  setActiveTab: (tab: 'design' | 'elements' | 'text' | 'borders' | 'brand' | 'uploads' | 'tools') => void;
+  activeTab: 'home' | 'templates' | 'design' | 'elements' | 'text' | 'borders' | 'brand' | 'uploads' | 'tools';
+  setActiveTab: (tab: 'home' | 'templates' | 'design' | 'elements' | 'text' | 'borders' | 'brand' | 'uploads' | 'tools') => void;
   currentSlide: number;
   presentation: Presentation;
   setPresentation: React.Dispatch<React.SetStateAction<Presentation>>;
@@ -39,6 +41,8 @@ interface SidebarTabsProps {
   addShapeElement: (shapeType: string) => void;
   addEmojiElement: (emoji: string) => void;
   applyTemplate: (templateId: string) => void;
+  applySlideTemplate: (templateId: string) => void;
+  addSlide: (templateId: string) => void;
   zoomLevel: number;
   zoomIn: () => void;
   zoomOut: () => void;
@@ -64,6 +68,8 @@ export default function SidebarTabs({
   addShapeElement,
   addEmojiElement,
   applyTemplate,
+  applySlideTemplate,
+  addSlide,
   zoomLevel,
   zoomIn,
   zoomOut,
@@ -120,6 +126,20 @@ export default function SidebarTabs({
       {/* Tab Content - Scrollable Container */}
       <div className="flex-1 h-full flex flex-col">
         <div className="flex-1 overflow-y-auto custom-scrollbar p-4">
+          {activeTab === 'home' && (
+            <HomeMenuTemplates
+              onApplyTemplate={applySlideTemplate}
+              onAddSlide={addSlide}
+            />
+          )}
+
+          {activeTab === 'templates' && (
+            <SlideTemplatesMenu
+              onApplyTemplate={applySlideTemplate}
+              onAddSlide={addSlide}
+            />
+          )}
+
           {activeTab === 'design' && (
             <DesignMenu
               currentSlide={currentSlide}
